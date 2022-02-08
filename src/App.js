@@ -1,9 +1,27 @@
+import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 
 function App() {
   return (
     <div>
-      {store.getState()}
+      <div>
+        {store.getState()}
+      </div>
+      <button
+        onClick={()=> store.dispatch(increment)}
+      >
+        +
+      </button>
+      <button
+        onClick={()=> store.dispatch(decrement)}
+      >
+        -
+      </button>
+      <button
+        onClick={()=> store.dispatch(reset)}
+      >
+        reset
+      </button>
     </div>
   );
 }
@@ -23,22 +41,27 @@ const counterReducer = (state = 0, action) => {
       return state + 1;
     case "@counter/decremented":
       return state - 1;
-    case "@counter/reseated":
+    case "@counter/reseted":
       return 0;
-
     default:
-      console.error("Unknown action");
       return state;
   }
 };
 
-// STORE
-// Para crearla debemos pasarle el reducer o la maquina que tiene que utilizar para gestionar el estado
+// STORE: Para crearla debemos pasarle el reducer o la maquina que tiene que utilizar para gestionar el estado
 const store = createStore(counterReducer);
 
-// Nos suscribimos par que cada vez que cambie el estado, nos notifica. Muy util para actuliza la UI cada vez que algo se hay aactualizado
-store.subscribe(() => {
-  store.getState();
-});
+// Render
+const renderApp = () => {
+  ReactDOM.render(
+    <App />,
+    document.getElementById('root')
+  )
+}
+renderApp();
+
+// STORE: Nos suscribimos. Asi, cada vez que cambie el estado, nos notifica. Muy util para actuliza la UI cada vez que algo se hay aactualizado
+store.subscribe(renderApp);
+
 
 export default App;
