@@ -1,0 +1,16 @@
+{
+    "name": "redux-de-cero--midudev",
+    "version": "0.0.0",
+    "keywords": [
+      "react",
+      "redux",
+      "noob"
+    ],
+    "repository": "git+https://github.com/jslworks/redux-de-cero--midudev.git",
+    "author": "jslworks",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/jslworks/redux-de-cero--midudev/issues"
+    },
+    "homepage": "https://github.com/jslworks/redux-de-cero--midudev#readme"
+  }
