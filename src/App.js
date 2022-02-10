@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import getGifs from "./services/getGifs";
 
-function App() {
+export default function App() {
   // imgs contiene el estado actual. setImages permitirá la actualización del estado del Comp
   const [gifs, setGifs] = useState([]);
 
@@ -12,21 +12,25 @@ function App() {
   useEffect(() => {
     console.log("actualizando gifs");
     
-    // Exportamos la lógica de servicio para obtener los gifs
-    getGifs() 
-      // y al obtener respuesta, actualizamos nuestro estado con los gifs recibidos
-      .then((gifs) => setGifs(gifs)); 
+    /* Exportamos la lógica de servicio para obtener los gifs
+       y al obtener respuesta, actualizamos nuestro estado con los gifs recibidos */
+    getGifs({keyword : 'horse' }).then((gifs) => setGifs(gifs));        
   }, []);
 
   return (
     <div className="App">
       <section className="App-content">
-        {gifs.map((singleImg) => (
-          <img src={singleImg} alt="horse" />
-        ))}
+        {
+          gifs.map((singleGif) => {
+            return <div>
+                <h4>{singleGif.title}</h4>
+                <small>{singleGif.id}</small>
+                <img src={singleGif.url} alt={singleGif.title} />
+              </div>
+            
+          })
+        }
       </section>
     </div>
   );
 }
-
-export default App;
