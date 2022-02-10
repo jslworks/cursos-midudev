@@ -24,7 +24,6 @@ export default function App() {
         {gifs.map((singleGif) => (
           <Gif
             key={singleGif.id}
-            id={singleGif.id}
             title={singleGif.title}
             url={singleGif.url}
           />

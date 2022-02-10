@@ -4,7 +4,7 @@ const apikey = "1VGGi4FZ6ZADpWjwkrqtmvlOsJQ1gRu4";
 
 //
 export default function getGifs({ keyword = "horse" } = {}) {
-  const apiURL = `https://api.giphy.com/v1/gifs/search?api_key=${apikey}&q=${keyword}&limit=4&offset=0&rating=g&lang=en`;
+  const apiURL = `https://api.giphy.com/v1/gifs/search?api_key=${apikey}&q=${keyword}&limit=3&offset=0&rating=g&lang=en`;
 
   return fetch(apiURL) // Consultamos la url de ésta API
     .then((res) => res.json()) // Procesamos la respuesta de la Promise
