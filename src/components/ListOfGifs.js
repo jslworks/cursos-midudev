@@ -14,9 +14,9 @@ export default function ListOfGifs({ keyword }) {
 
         /* Exportamos la lógica de servicio para obtener los gifs
         y al obtener respuesta, actualizamos nuestro estado con los gifs recibidos */
-        getGifs({ keyword })
+        getGifs({ keyword }) // keyword se convierte en una dependencia del efecto
             .then((gifs) => setGifs(gifs));
-    }, []);
+    }, [keyword]);
 
     return gifs.map(({ id, title, url }) => 
         <Gif
