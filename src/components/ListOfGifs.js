@@ -2,7 +2,8 @@ import { react, useEffect, useState } from "react";
 import getGifs from "../services/getGifs";
 import Gif from './Gif';
 
-export default function ListOfGifs({ keyword }) {
+export default function ListOfGifs({params}) {
+    const { keyword } = params;
     // imgs contiene el estado actual. setImages permitirá la actualización del estado del Comp
     const [gifs, setGifs] = useState([]);
 
@@ -18,12 +19,14 @@ export default function ListOfGifs({ keyword }) {
             .then((gifs) => setGifs(gifs));
     }, [keyword]);
 
-    return gifs.map(({ id, title, url }) => 
-        <Gif
-            id={id}
-            key={id}
-            title={title}
-            url={url}
-        />
-    )
+    return <> { 
+        gifs.map(({ id, title, url }) => 
+            <Gif
+                id={id}
+                key={id}
+                title={title}
+                url={url}
+            />
+        )
+    } </>
 }
