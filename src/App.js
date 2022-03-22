@@ -1,52 +1,57 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 
-function App() {
-  return (
-    <div>
-      <div>
-        {store.getState()}
-      </div>
-      <button
-        onClick={()=> store.dispatch(increment)}
-      > + </button>
-      <button
-        onClick={()=> store.dispatch(decrement)}
-      > - </button>
-      <button
-        onClick={()=> store.dispatch(reset)}
-      > reset </button>
-    </div>
-  );
+const noteReducer = (state = [], action) => {
+  if (action.type === '@notes/created') {
+    // state.push(action.payload); // De base push modifica el array original
+    return state.concat(action.payload);  // Para evitar lo anterior, usamos concat
+  }
+  return state;
 }
 
-// ACTIONS
-const increment = { type: "@counter/incremented" };
-const decrement = { type: "@counter/decremented" };
-const reset = { type: "@counter/reseted" };
+const store = createStore(noteReducer);
 
-// REDUCERS
-const counterReducer = (state = 0, action) => {
-  // Necesitamos inicializar par a empezar la rueda
-  switch (
-    action.type // Recuperamos tipo de acción
-  ) {
-    case "@counter/incremented":
-      return state + 1;
-    case "@counter/decremented":
-      return state - 1;
-    case "@counter/reseted":
-      return 0;
-    default:
-      return state;
+store.dispatch({
+  type: '@notes/created',
+  payload: {
+    content: 'Me encantan las clases de midudev',
+    important: true,
+    id: 1
   }
-};
+});
 
-// STORE: Para crearla debemos pasarle el reducer o la maquina que tiene que utilizar para gestionar el estado
-const store = createStore(
-  counterReducer, 
-  /* preloadedState, */
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+store.dispatch({
+  type: '@notes/created',
+  payload: {
+    content: 'pero tengo hambre!!! jajaja',
+    important: false,
+    id: 2
+  }
+});
+
+const App = () => {
+  const state = store.getState();
+
+  return (
+    <ul>
+      {
+        state.map(note => {
+          return <li key={note.id}>
+            {note.content}
+            <strong>
+              {
+                note.important
+                  ? 'important'
+                  : 'not important'
+              }
+            </strong>
+          </li>
+        })
+      }
+    </ul>
+  )
+}
 
 // Render
 const renderApp = () => {
