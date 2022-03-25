@@ -23,12 +23,37 @@ store.dispatch({
   }
 });
 
+// Generador random, sin importancia, de ID
+const generateID = () => Math.floor(Math.random() * 9999 ) + 1;
+
 const App = () => {
   const state = store.getState();
 
+  const addNote = (event) => {
+    event.preventDefault();
+    const { target } = event;
+    const content = target.note.value; // accedemos al elemento por su nombre
+    target.note.value = ''; // Manipulación directa del DOM, ya que no estamos controlando el state. Si no, seria resetear el estado
+    store.dispatch({
+      type: '@notes/created',
+      payload: {
+        content,
+        important: false,
+        id: generateID()
+      }
+    })
+  }
+
+  // Hacemos formulario no controlado, es decir, que no estamos guardando los valores en la Store
+  // +Ventaja: rendimiento
+  // -Desventaja: pierdes algo de control
   return (
-    <ul>
-      {
+    <div>
+      <form onSubmit={addNote}>
+        <input name='note' />
+        <button>add</button>
+      </form>
+      <ul> {
         state.map(note => {
           return <li key={note.id}>
             {note.content}
@@ -41,8 +66,8 @@ const App = () => {
             </strong>
           </li>
         })
-      }
-    </ul>
+      } </ul>
+    </div>
   )
 }
 
