@@ -1,11 +1,11 @@
-import { Notes } from "./components/Notes";
 import { NewNote } from "./components/NewNote";
+import NotesContainer from "./components/NotesContainer";
 
 const App = () => {
   return (
     <div>
       <NewNote />
-      <Notes />
+      <NotesContainer />
     </div>
   );
 };
