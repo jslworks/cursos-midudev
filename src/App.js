@@ -44,6 +44,16 @@ const App = () => {
     })
   }
 
+  // Metodo para cambiar la importancia de las notas
+  const toggleImportant = (id) => {
+    store.dispatch({
+      type: '@notes/toggle_important',
+      payload: {
+        id
+      }
+    })
+  }
+
   // Hacemos formulario no controlado, es decir, que no estamos guardando los valores en la Store
   // +Ventaja: rendimiento
   // -Desventaja: pierdes algo de control
@@ -55,7 +65,7 @@ const App = () => {
       </form>
       <ul> {
         state.map(note => {
-          return <li key={note.id}>
+          return <li key={note.id} onClick={() => toggleImportant(note.id)}>
             {note.content}
             <strong>
               {

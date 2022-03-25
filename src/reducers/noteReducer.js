@@ -9,15 +9,17 @@ export const noteReducer = (state = [], action) => {
   if (action.type === "@notes/toggle_important") {
     const { id } = action.payload; // recuperamos id
     // Recuperamos el estado y, por cada nota, si tiene esa idea, cambiamos su importancia
-    return state.map(note => {
-      // Para no mutar el objeto, utilizamos spread operator. Copiamos todas las notas y creamos uno nuevo
-      // Ojo, si note tiene otro objeto dentro habría que utilizar spread dentro de spread. Se puede utiliza fibers.js
-      return {
-        ...note,
-        important: !note.important
+    return state.map((note) => {
+      if (note.id === id) {
+        // Para no mutar el objeto, utilizamos spread operator. Copiamos todas las notas y creamos uno nuevo
+        // Ojo, si note tiene otro objeto dentro habría que utilizar spread dentro de spread. Se puede utiliza fibers.js
+        return {
+          ...note,
+          important: !note.important,
+        };
       }
+      return note;
     });
-
   }
 
   return state;
