@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
-import { noteReducer } from './reducers/noteReducer';
+import { createNote, toggleImportanceOf, noteReducer } from './reducers/noteReducer';
 
 const store = createStore(noteReducer);
 
@@ -23,9 +23,6 @@ store.dispatch({
   }
 });
 
-// Generador random, sin importancia, de ID
-const generateID = () => Math.floor(Math.random() * 9999 ) + 1;
-
 const App = () => {
   const state = store.getState();
 
@@ -34,24 +31,12 @@ const App = () => {
     const { target } = event;
     const content = target.note.value; // accedemos al elemento por su nombre
     target.note.value = ''; // Manipulación directa del DOM, ya que no estamos controlando el state. Si no, seria resetear el estado
-    store.dispatch({
-      type: '@notes/created',
-      payload: {
-        content,
-        important: false,
-        id: generateID()
-      }
-    })
+    store.dispatch(createNote(content));
   }
 
   // Metodo para cambiar la importancia de las notas
   const toggleImportant = (id) => {
-    store.dispatch({
-      type: '@notes/toggle_important',
-      payload: {
-        id
-      }
-    })
+    store.dispatch(toggleImportanceOf(id));
   }
 
   // Hacemos formulario no controlado, es decir, que no estamos guardando los valores en la Store

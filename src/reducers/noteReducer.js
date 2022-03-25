@@ -24,3 +24,26 @@ export const noteReducer = (state = [], action) => {
 
   return state;
 };
+
+// Generador random, sin importancia, de ID
+const generateID = () => Math.floor(Math.random() * 9999 ) + 1;
+
+export const createNote = (content) => {
+  return {
+    type: '@notes/created',
+      payload: {
+        content,
+        important: false,
+        id: generateID()
+      }
+    };
+}
+
+export const toggleImportanceOf = (id) => {
+  return {
+    type: '@notes/toggle_important',
+      payload: {
+        id
+      }
+  }
+}
