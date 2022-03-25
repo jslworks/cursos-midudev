@@ -1,42 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
-import { createNote, toggleImportanceOf, noteReducer } from './reducers/noteReducer';
-
-const store = createStore(noteReducer);
-
-store.dispatch({
-  type: '@notes/created',
-  payload: {
-    content: 'Me encantan las clases de midudev',
-    important: true,
-    id: 1
-  }
-});
-
-store.dispatch({
-  type: '@notes/created',
-  payload: {
-    content: 'pero tengo hambre!!! jajaja',
-    important: false,
-    id: 2
-  }
-});
+import { createNote, toggleImportanceOf } from './reducers/noteReducer';
+import { useDispatch, useSelector } from 'react-redux';
+// useStore devuelve toda la store, por lo tanto no es lo que buscamo
+// useSelector permite suscribirte a solo una parte del estado
 
 const App = () => {
-  const state = store.getState();
+  const notes = useSelector(state => state);
+  // const importantNotes = useSelector(state => {
+  //   state.filter(note => note.important)
+  // }); // Por ejemplo, obtener solo las importantes
+  const dispatch = useDispatch();
 
   const addNote = (event) => {
     event.preventDefault();
     const { target } = event;
     const content = target.note.value; // accedemos al elemento por su nombre
     target.note.value = ''; // Manipulación directa del DOM, ya que no estamos controlando el state. Si no, seria resetear el estado
-    store.dispatch(createNote(content));
+    dispatch(createNote(content));
   }
 
   // Metodo para cambiar la importancia de las notas
   const toggleImportant = (id) => {
-    store.dispatch(toggleImportanceOf(id));
+    dispatch(toggleImportanceOf(id));
   }
 
   // Hacemos formulario no controlado, es decir, que no estamos guardando los valores en la Store
@@ -49,7 +33,7 @@ const App = () => {
         <button>add</button>
       </form>
       <ul> {
-        state.map(note => {
+        notes.map(note => {
           return <li key={note.id} onClick={() => toggleImportant(note.id)}>
             {note.content}
             <strong>
@@ -65,17 +49,5 @@ const App = () => {
     </div>
   )
 }
-
-// Render
-const renderApp = () => {
-  ReactDOM.render(
-    <App />,
-    document.getElementById('root')
-  )
-}
-renderApp();
-
-// STORE: Nos suscribimos. Asi, cada vez que cambie el estado, nos notifica. Muy util para actuliza la UI cada vez que algo se hay aactualizado
-store.subscribe(renderApp);
 
 export default App;

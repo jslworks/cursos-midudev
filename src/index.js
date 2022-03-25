@@ -1,17 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { noteReducer } from './reducers/noteReducer';
+
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
+const store = createStore(noteReducer);
+
+// Provider: es el encargado de tener la store y mantenerla disponible para toda la aplicación
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <App  />
+  </Provider>,
   document.getElementById('root')
-);
+)
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// // Render
+// const renderApp = () => {
+//   ReactDOM.render(
+//     <App store={store} />,
+//     document.getElementById('root')
+//   )
+// }
+
+// renderApp();
+// // STORE: Nos suscribimos. Asi, cada vez que cambie el estado, nos notifica. Muy util para actuliza la UI cada vez que algo se hay aactualizado
+// store.subscribe(renderApp);
