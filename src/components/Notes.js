@@ -4,7 +4,7 @@ export default function Notes ({notes, toggleImportant}) {
   return (
     <ul> {
       notes.map(
-        note => <Note note={note} toggleImportant={toggleImportant} />
+        note => <Note key={note.id} note={note} toggleImportant={toggleImportant} />
       )
     } </ul>
   );
