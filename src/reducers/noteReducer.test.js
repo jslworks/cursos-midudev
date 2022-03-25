@@ -1,3 +1,4 @@
+import deepFreeze from 'deep-freeze';
 import { noteReducer } from './noteReducer';
 
 describe('noteReducer', () => {
@@ -22,7 +23,9 @@ describe('noteReducer', () => {
             }
         }
 
-        const newState = noteReducer(state, action);
+        // Para controlar que el estado queda inmutable, utilizamos deep-freeze
+        deepFreeze(state); // Si alguien intenta mutar, lanza un error
+        const newState = noteReducer(state, action); 
 
         expect(newState).toHaveLength(2);
         // Vamos a cambiar la 2a nota, por lo tanto el primer estado deberia ser igual
@@ -31,7 +34,7 @@ describe('noteReducer', () => {
         expect(newState).toContainEqual({
             id: 2,
             content: 'note2',
-            important: true
+            important: false
         });
     });
 })
