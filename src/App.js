@@ -1,7 +1,9 @@
-import { createNote, toggleImportanceOf } from './reducers/noteReducer';
+import { toggleImportanceOf } from './reducers/noteReducer';
 import { useDispatch, useSelector } from 'react-redux';
 // useStore devuelve toda la store, por lo tanto no es lo que buscamo
 // useSelector permite suscribirte a solo una parte del estado
+
+import { NewNote } from './components/NewNote'
 
 const App = () => {
   const notes = useSelector(state => state);
@@ -10,13 +12,6 @@ const App = () => {
   // }); // Por ejemplo, obtener solo las importantes
   const dispatch = useDispatch();
 
-  const addNote = (event) => {
-    event.preventDefault();
-    const { target } = event;
-    const content = target.note.value; // accedemos al elemento por su nombre
-    target.note.value = ''; // Manipulación directa del DOM, ya que no estamos controlando el state. Si no, seria resetear el estado
-    dispatch(createNote(content));
-  }
 
   // Metodo para cambiar la importancia de las notas
   const toggleImportant = (id) => {
@@ -28,10 +23,7 @@ const App = () => {
   // -Desventaja: pierdes algo de control
   return (
     <div>
-      <form onSubmit={addNote}>
-        <input name='note' />
-        <button>add</button>
-      </form>
+      <NewNote />
       <ul> {
         notes.map(note => {
           return <li key={note.id} onClick={() => toggleImportant(note.id)}>
